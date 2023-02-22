@@ -54,7 +54,6 @@ public class ProductController : ControllerBase // Not a fan of ApiController as
     [HttpGet("list/{page?}")]
     [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public IActionResult GetProducts([FromRoute] ListProductsRequest request, CancellationToken ct = default)
     {
         var page = request.Page;
