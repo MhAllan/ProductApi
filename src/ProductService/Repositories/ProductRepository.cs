@@ -23,22 +23,31 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product> GetProduct(string id, CancellationToken ct = default)
     {
-        var entity = await _context.Products.FirstOrDefaultAsync(p => p.Id == id, ct);
-        var result = entity?.ToProduct();
+        var product = await _context.Products.Select(x => new Product
+                            {
+                                Id = x.Id,
+                                Name = x.Name,
+                                Description = x.Description,
+                                Price = x.Price
+                            })
+                            .FirstOrDefaultAsync(p => p.Id == id, ct);
 
-        return result;
+        return product;
     }
 
-    public async IAsyncEnumerable<Product> GetProducts(int skip, int count, 
-       [EnumeratorCancellation] CancellationToken ct = default)
+    public IAsyncEnumerable<Product> GetProducts(int skip, int count, CancellationToken ct = default)
     {
         var result = _context.Products.Skip(skip)
                                 .Take(count)
+                                .Select(p => new Product
+                                {
+                                    Id = p.Id,
+                                    Name = p.Name,
+                                    Description = p.Description,
+                                    Price = p.Price,
+                                })
                                 .AsAsyncEnumerable();
 
-        await foreach (var entity in result)
-        {
-            yield return entity.ToProduct();
-        }
+        return result;
     }
 }

@@ -51,7 +51,7 @@ public class ProductController : ControllerBase // Not a fan of ApiController as
         return Ok(prouct);
     }
 
-    [HttpGet("list/{page?}")]
+    [HttpGet("list/{page?}")] //this is optional so that /product/list doesn't hit the /product/{id} endpoint which confuses the client
     [ProducesResponseType(typeof(IAsyncEnumerable<Product>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public IActionResult GetProducts([FromRoute] ListProductsRequest request, CancellationToken ct = default)

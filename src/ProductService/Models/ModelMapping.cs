@@ -26,15 +26,4 @@ public static class ModelMapping
             Price = product.Price
         };
     }
-
-    public static Product ToProduct(this ProductEntity entity)
-    {
-        return new Product
-        {
-            Id = entity.Id,
-            Name = entity.Name,
-            Description = entity.Description,
-            Price = entity.Price
-        };
-    }
 }
